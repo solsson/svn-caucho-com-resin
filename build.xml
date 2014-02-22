@@ -1,4 +1,4 @@
-<project name="resin" default="compile" basedir=".">
+<project name="resin" default="quercus.war" basedir=".">
   <import file="build-common.xml"/>
   <property name="jar.update" value="true"/>
 
@@ -1144,7 +1144,7 @@
   </target>
 
   <target name="quercus.war" depends="init, resin.dist.jar">
-    <property name="quercus.dist.name" value="quercus-war-${version}"/>
+    <property name="quercus.dist.name" value="quercus-webapp"/>
   
     <delete dir="${dist}/${quercus.dist.name}"/>
     <delete file="${dist}/quercus-${version}.war"/>
