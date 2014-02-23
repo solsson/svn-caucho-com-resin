@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jcache"/>
 	<classpathentry kind="var" path="RESIN_SRC_HOME/lib/gae.jar"/>
 	<classpathentry kind="var" path="RESIN_SRC_HOME/lib/hessian.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
