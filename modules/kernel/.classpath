@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jpa"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jcache"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jca"/>
+	<classpathentry kind="var" path="RESIN_SRC_HOME/lib/hessian.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
