@@ -6696,7 +6696,11 @@ public class Env
    */
   public int getErrorMask()
   {
-    return getIni("error_reporting").toInt();
+    int mask = getIni("error_reporting").toInt();
+    if (mask == 0) {
+    	return E_ALL;
+    }
+    return mask;
   }
 
   /**
