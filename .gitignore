@@ -1,0 +1,17 @@
+conf/app-default.xml
+conf/resin.properties
+dist/
+# built by ant, though needed for eclipse classpath
+lib/*.jar
+# extracted somehow
+lib/*.LICENSE
+# created by ant
+modules/c/src/common/version.h
+modules/csharp/src/common/Version.cs
+modules/kernel/src/com/caucho/Version.java
+modules/resin/src/manifest
+modules/resin/src/manifest.dist
+# build output
+*/*/classes/
+*/*/bin/
+*/*/dist/
