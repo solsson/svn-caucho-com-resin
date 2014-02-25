@@ -32,6 +32,7 @@ package com.caucho.quercus.lib.curl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -183,7 +184,14 @@ public class CurlHttpConnection
   public void setRequestMethod(String method)
     throws ProtocolException
   {
-    getHttpConnection().setRequestMethod(method);
+	  if ("GET".equals(method) || "POST".equals(method) || "HEAD".equals(method)) {
+		  // public setter, may throw java.net.ProtocolException: Invalid HTTP method: 
+		  getHttpConnection().setRequestMethod(method);
+	  } else {
+		  // Curl supports arbitrary HTTP methods but HTTPUrlConnection doesn't by default
+		  // https://blogs.oracle.com/PavelBucek/entry/jersey_client_making_requests_with
+		  setRequestMethodUsingWorkaroundForJREBug(getHttpConnection(), method);
+	  }
   }
 
   public String getRequestProperty(String key)
@@ -407,4 +415,29 @@ public class CurlHttpConnection
     if (_httpConn != null)
       _httpConn.disconnect();
   }
+  
+  /**
+   * Workaround for a bug in <code>HttpURLConnection.setRequestMethod(String)</code>
+   * The implementation of Sun Microsystems is throwing a <code>ProtocolException</code>
+   * when the method is other than the HTTP/1.1 default methods. So
+   * to use PROPFIND and others, we must apply this workaround.
+   *
+   * See issue http://java.net/jira/browse/JERSEY-639
+   */
+
+  private static final void setRequestMethodUsingWorkaroundForJREBug(final HttpURLConnection httpURLConnection, final String method) {
+      try {
+          httpURLConnection.setRequestMethod(method); // Check whether we are running on a buggy JRE
+      } catch (final ProtocolException pe) {
+          try {
+              final Class<?> httpURLConnectionClass = httpURLConnection.getClass();
+              final Field methodField = httpURLConnectionClass.getSuperclass().getDeclaredField("method");
+              methodField.setAccessible(true);
+              methodField.set(httpURLConnection, method);
+          } catch (final Exception e) {
+              throw new RuntimeException(e);
+          }
+      }
+  }
+  
 }

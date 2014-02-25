@@ -239,7 +239,7 @@ public class CurlHttpRequest
       return false;
     }
     catch (ProtocolException e) {
-      throw new QuercusModuleException(e.getMessage());
+      throw new QuercusModuleException(e.getMessage(), e);
       //error(0, e.getMessage(), e);
     }
     catch (UnknownHostException e) {
